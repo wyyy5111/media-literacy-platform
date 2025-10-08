@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>按钮功能测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .test-button {
+            margin: 5px;
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>媒体素养教育平台 - 按钮功能测试</h1>
+    
+
+
+    <div class="test-section">
+        <h2>2. 主题切换测试</h2>
+        <button class="test-button" onclick="testThemeToggle()">测试主题切换</button>
+        <button class="test-button" onclick="testContrastToggle()">测试对比度切换</button>
+        <div id="themeResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. 字体大小测试</h2>
+        <button class="test-button" onclick="testFontIncrease()">测试字体增大</button>
+        <button class="test-button" onclick="testFontDecrease()">测试字体减小</button>
+        <div id="fontResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. 导出功能测试</h2>
+        <button class="test-button" onclick="testExportSummary()">测试导出摘要</button>
+        <button class="test-button" onclick="testExportCertificate()">测试导出证书</button>
+        <button class="test-button" onclick="testExportZip()">测试导出ZIP</button>
+        <div id="exportResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. 导航功能测试</h2>
+        <button class="test-button" onclick="testNavigation()">测试页面导航</button>
+        <button class="test-button" onclick="testTabNavigation()">测试标签导航</button>
+        <div id="navResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>测试结果汇总</h2>
+        <div id="summaryResult" class="result"></div>
+        <button class="test-button" onclick="runAllTests()">运行所有测试</button>
+    </div>
+
+    <script>
+        let testResults = [];
+
+        function logResult(test, success, message) {
+            const result = { test, success, message, timestamp: new Date().toLocaleTimeString() };
+            testResults.push(result);
+            console.log(`[${result.timestamp}] ${test}: ${success ? '✓' : '✗'} ${message}`);
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const summary = document.getElementById('summaryResult');
+            const total = testResults.length;
+            const passed = testResults.filter(r => r.success).length;
+            const failed = total - passed;
+            
+            summary.innerHTML = `
+                <h3>测试汇总</h3>
+                <p>总测试数: ${total} | 通过: ${passed} | 失败: ${failed}</p>
+                <div style="margin-top: 10px;">
+                    ${testResults.map(r => 
+                        `<div style="color: ${r.success ? 'green' : 'red'};">
+                            [${r.timestamp}] ${r.test}: ${r.success ? '✓' : '✗'} ${r.message}
+                        </div>`
+                    ).join('')}
+                </div>
+            `;
+        }
+
+
+
+        function testThemeToggle() {
+            try {
+                const themeToggle = parent.document.querySelector('#themeToggle');
+                if (!themeToggle) {
+                    logResult('主题切换', false, '主题切换按钮未找到');
+                    return;
+                }
+                
+                const initialTheme = parent.document.documentElement.getAttribute('data-theme');
+                themeToggle.click();
+                
+                setTimeout(() => {
+                    const newTheme = parent.document.documentElement.getAttribute('data-theme');
+                    const changed = initialTheme !== newTheme;
+                    logResult('主题切换', changed, changed ? '主题切换正常工作' : '主题切换无效');
+                }, 100);
+                
+            } catch (error) {
+                logResult('主题切换', false, `错误: ${error.message}`);
+            }
+        }
+
+        function testContrastToggle() {
+            try {
+                const contrastToggle = parent.document.querySelector('#contrastToggle');
+                if (!contrastToggle) {
+                    logResult('对比度切换', false, '对比度切换按钮未找到');
+                    return;
+                }
+                
+                const initialContrast = parent.document.documentElement.getAttribute('data-contrast');
+                contrastToggle.click();
+                
+                setTimeout(() => {
+                    const newContrast = parent.document.documentElement.getAttribute('data-contrast');
+                    const changed = initialContrast !== newContrast;
+                    logResult('对比度切换', changed, changed ? '对比度切换正常工作' : '对比度切换无效');
+                }, 100);
+                
+            } catch (error) {
+                logResult('对比度切换', false, `错误: ${error.message}`);
+            }
+        }
+
+        function testFontIncrease() {
+            try {
+                const fontInc = parent.document.querySelector('#fontInc');
+                if (!fontInc) {
+                    logResult('字体增大', false, '字体增大按钮未找到');
+                    return;
+                }
+                
+                const initialScale = parent.document.documentElement.style.fontSize;
+                fontInc.click();
+                
+                setTimeout(() => {
+                    const newScale = parent.document.documentElement.style.fontSize;
+                    const changed = initialScale !== newScale;
+                    logResult('字体增大', changed, changed ? '字体增大正常工作' : '字体增大无效');
+                }, 100);
+                
+            } catch (error) {
+                logResult('字体增大', false, `错误: ${error.message}`);
+            }
+        }
+
+        function testFontDecrease() {
+            try {
+                const fontDec = parent.document.querySelector('#fontDec');
+                if (!fontDec) {
+                    logResult('字体减小', false, '字体减小按钮未找到');
+                    return;
+                }
+                
+                const initialScale = parent.document.documentElement.style.fontSize;
+                fontDec.click();
+                
+                setTimeout(() => {
+                    const newScale = parent.document.documentElement.style.fontSize;
+                    const changed = initialScale !== newScale;
+                    logResult('字体减小', changed, changed ? '字体减小正常工作' : '字体减小无效');
+                }, 100);
+                
+            } catch (error) {
+                logResult('字体减小', false, `错误: ${error.message}`);
+            }
+        }
+
+        function testExportSummary() {
+            try {
+                const exportSummary = parent.document.querySelector('#exportSummary');
+                if (!exportSummary) {
+                    logResult('导出摘要', false, '导出摘要按钮未找到');
+                    return;
+                }
+                
+                // 监听点击事件
+                let clicked = false;
+                const handler = () => { clicked = true; };
+                exportSummary.addEventListener('click', handler, { once: true });
+                
+                exportSummary.click();
+                
+                setTimeout(() => {
+                    exportSummary.removeEventListener('click', handler);
+                    logResult('导出摘要', clicked, clicked ? '导出摘要按钮响应正常' : '导出摘要按钮无响应');
+                }, 100);
+                
+            } catch (error) {
+                logResult('导出摘要', false, `错误: ${error.message}`);
+            }
+        }
+
+        function testExportCertificate() {
+            try {
+                const exportCertificate = parent.document.querySelector('#exportCertificate');
+                if (!exportCertificate) {
+                    logResult('导出证书', false, '导出证书按钮未找到');
+                    return;
+                }
+                
+                let clicked = false;
+                const handler = () => { clicked = true; };
+                exportCertificate.addEventListener('click', handler, { once: true });
+                
+                exportCertificate.click();
+                
+                setTimeout(() => {
+                    exportCertificate.removeEventListener('click', handler);
+                    logResult('导出证书', clicked, clicked ? '导出证书按钮响应正常' : '导出证书按钮无响应');
+                }, 100);
+                
+            } catch (error) {
+                logResult('导出证书', false, `错误: ${error.message}`);
+            }
+        }
+
+        function testExportZip() {
+            try {
+                const exportZip = parent.document.querySelector('#exportZip');
+                if (!exportZip) {
+                    logResult('导出ZIP', false, '导出ZIP按钮未找到');
+                    return;
+                }
+                
+                let clicked = false;
+                const handler = () => { clicked = true; };
+                exportZip.addEventListener('click', handler, { once: true });
+                
+                exportZip.click();
+                
+                setTimeout(() => {
+                    exportZip.removeEventListener('click', handler);
+                    logResult('导出ZIP', clicked, clicked ? '导出ZIP按钮响应正常' : '导出ZIP按钮无响应');
+                }, 100);
+                
+            } catch (error) {
+                logResult('导出ZIP', false, `错误: ${error.message}`);
+            }
+        }
+
+        function testNavigation() {
+            try {
+                const startBtn = parent.document.querySelector('#startBtn');
+                if (!startBtn) {
+                    logResult('页面导航', false, '开始按钮未找到');
+                    return;
+                }
+                
+                startBtn.click();
+                
+                setTimeout(() => {
+                    const difficultyPanel = parent.document.querySelector('#difficulty');
+                    const isActive = difficultyPanel && difficultyPanel.classList.contains('active');
+                    logResult('页面导航', isActive, isActive ? '页面导航正常工作' : '页面导航无效');
+                }, 100);
+                
+            } catch (error) {
+                logResult('页面导航', false, `错误: ${error.message}`);
+            }
+        }
+
+        function testTabNavigation() {
+            try {
+                const tabs = parent.document.querySelectorAll('.tab');
+                if (tabs.length === 0) {
+                    logResult('标签导航', false, '标签未找到');
+                    return;
+                }
+                
+                const firstTab = tabs[0];
+                const target = firstTab.dataset.target;
+                firstTab.click();
+                
+                setTimeout(() => {
+                    const targetPanel = parent.document.querySelector(`#${target}`);
+                    const isActive = targetPanel && targetPanel.classList.contains('active');
+                    logResult('标签导航', isActive, isActive ? '标签导航正常工作' : '标签导航无效');
+                }, 100);
+                
+            } catch (error) {
+                logResult('标签导航', false, `错误: ${error.message}`);
+            }
+        }
+
+        function runAllTests() {
+            testResults = [];
+            document.getElementById('summaryResult').innerHTML = '<p>正在运行所有测试...</p>';
+            
+            const tests = [
+
+                testThemeToggle,
+                testContrastToggle,
+                testFontIncrease,
+                testFontDecrease,
+                testExportSummary,
+                testExportCertificate,
+                testExportZip,
+                testNavigation,
+                testTabNavigation
+            ];
+            
+            tests.forEach((test, index) => {
+                setTimeout(() => {
+                    test();
+                }, index * 500);
+            });
+        }
+
+        // 页面加载完成后显示说明
+        window.addEventListener('load', () => {
+            console.log('按钮功能测试页面已加载');
+            document.getElementById('summaryResult').innerHTML = '<p>点击"运行所有测试"开始自动化测试，或单独测试各个功能。</p>';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>一眼真相：编辑闯关</title>
+    <link rel="preload" href="css/main.css" as="style" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="manifest" href="../manifest.json" />
+    <meta name="theme-color" content="#0b1221" />
+  </head>
+  <body>
+    <header class="app-header" role="banner">
+      <div class="title-wrap">
+        <h1 class="app-title" data-i18n="appTitle">一眼真相：编辑闯关</h1>
+      </div>
+      <div class="controls" role="group" aria-label="显示控制">
+<button id="themeToggle" class="btn" aria-pressed="false" title="切换深浅色" aria-label="切换深浅色" data-i18n="btnThemeToggle">深/浅</button>
+<button id="contrastToggle" class="btn" aria-pressed="false" title="切换高对比度" aria-label="切换高对比度" data-i18n="btnContrastToggle">高对比</button>
+<button id="fontInc" class="btn" title="放大字体" aria-label="放大字体" data-i18n="btnFontInc">A+</button>
+<button id="fontDec" class="btn" title="缩小字体" aria-label="缩小字体" data-i18n="btnFontDec">A-</button>
+<button id="langToggle" class="btn" title="切换中英" aria-label="切换中英" data-i18n="btnLangToggle">中/EN</button>
+<button id="analyticsBtn" class="btn" title="学习分析" aria-label="学习分析" data-i18n="btnAnalytics">📊</button>
+<button id="aiAssistantBtn" class="btn" title="AI助手" aria-label="AI助手" data-i18n="btnAiAssistant">🤖</button>
+<button id="recommendBtn" class="btn" title="内容推荐" aria-label="内容推荐" data-i18n="btnRecommend">💡</button>
+<button id="resetProgress" class="btn" title="清除进度" aria-label="清除进度" data-i18n="btnReset">重置</button>
+<button id="layoutToggle" class="btn" title="切换布局" aria-label="切换单栏/双栏布局" data-i18n="btnLayoutToggle">📱</button>
+
+<button id="installBtn" class="btn" title="安装到桌面" aria-label="安装到桌面" style="display:none" data-i18n="btnInstall">安装到桌面</button>
+      </div>
+      <div class="progress-wrap" aria-label="整体进度">
+        <div id="progressBar" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width:0%"></div>
+      </div>
+    </header>
+
+    <nav class="tabs" role="navigation" aria-label="关卡导航">
+      <button class="tab active" data-target="intro" aria-controls="intro" role="tab" aria-label="首页" data-i18n="tabIntro">首页</button>
+      <button class="tab" data-target="difficulty" aria-controls="difficulty" role="tab" aria-label="难度" data-i18n="tabDifficulty">难度</button>
+      <button class="tab" data-target="levelSelect" aria-controls="levelSelect" role="tab" aria-label="关卡选择" data-i18n="tabLevelSelect">关卡选择</button>
+      <button class="tab" data-target="results" aria-controls="results" role="tab" aria-label="通关面板" data-i18n="tabResults">通关面板</button>
+    </nav>
+
+    <main class="content" role="main">
+<aside class="achievements" aria-label="成就徽章">
+<h3 data-i18n="achievementsTitle">成就</h3>
+        <ul id="achievementsList" aria-live="polite"></ul>
+      </aside>
+
+      <section id="intro" class="panel active" tabindex="0">
+        <h2 data-i18n="introTitle">作品简介</h2>
+        <p data-i18n="introDesc">通过五个互动关卡训练并评估编辑素养：标题规范、图表纠错、事实链与引用、伦理与AI标识、谣言识别。完全离线，支持键盘与高对比度。</p>
+        <button id="startBtn" class="btn primary" aria-label="开始闯关" data-i18n="introStart">开始闯关</button>
+      </section>
+
+      <section id="synthesis" class="panel play" tabindex="0" hidden>
+        <div class="play-grid">
+          <div class="play-left">
+<h3 data-i18n="materialTitle">素材区</h3>
+            <p>综合运用前述技能，生成可信的一页专题。</p>
+          </div>
+          <div class="play-right">
+            <h2>综合关：一页专题</h2>
+            <div class="question">
+              <p class="muted">根据素材池整理标题、修正图表、完善引用并添加必要的伦理标识。</p>
+            </div>
+            <button class="btn" data-evaluate="synthesis">提交综合关</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="egg" class="panel play" tabindex="0" hidden>
+        <div class="play-grid">
+          <div class="play-left">
+<h3 data-i18n="materialTitle">素材区</h3>
+            <p>限时挑战或专家陷阱，快速定位问题点。</p>
+          </div>
+          <div class="play-right">
+            <h2>彩蛋关：Speedrun/专家模式</h2>
+            <div id="eggChecks" class="checkboxes">
+              <label><input type="checkbox" /> 修正标题夸张</label>
+              <label><input type="checkbox" /> 图表Y轴归零</label>
+              <label><input type="checkbox" /> 引用补齐作者与日期</label>
+              <label><input type="checkbox" /> 添加AI生成显著标识</label>
+            </div>
+            <button class="btn" data-evaluate="egg">提交彩蛋关</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="difficulty" class="panel" tabindex="0">
+        <h2>选择难度</h2>
+        <div class="difficulty-grid">
+          <button class="btn diff" data-diff="newbie">新手</button>
+          <button class="btn diff" data-diff="advanced">进阶</button>
+          <button class="btn diff" data-diff="master">大师</button>
+        </div>
+        <p class="muted">难度影响题目数量、提示强度与评估阈值。</p>
+      </section>
+
+      <section id="levelSelect" class="panel" tabindex="0">
+        <h2>选择关卡</h2>
+        <div id="levelGrid" class="level-grid" aria-live="polite"></div>
+      </section>
+
+      <section id="stage1" class="panel play" tabindex="0" hidden>
+        <div class="play-container">
+          <div class="question-content">
+            <h4 id="q1_title" class="q-title">第一关：学习改写新闻标题</h4>
+            <p class="q-description">学习如何改写新闻标题，使其更加中立、客观、准确。</p>
+            <div id="q1_material" class="material-display">
+              <h5>原始标题</h5>
+              <div id="q1_original" class="original-content"></div>
+            </div>
+            <p id="q1_prompt" class="q-prompt">请选择一个更中立、客观、准确的标题</p>
+          </div>
+          <div class="answer-section">
+            <div id="q1_options" class="q-options"></div>
+          </div>
+          <div class="feedback-section">
+            <div id="q1_feedback" class="feedback" style="display: none;"></div>
+            <div id="q1_analysis" class="analysis" style="display: none;">
+              <h4>答案解析</h4>
+              <p>这里将显示详细的答案解析和学习要点。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="stage2" class="panel play" tabindex="0" hidden>
+        <div class="play-container">
+          <div class="question-content">
+            <h4>第二关：修正数据图表</h4>
+            <p class="q-description">观察初始图表，尝试修正设计缺陷。图表可能存在零点偏移、3D效果干扰、量纲不统一等问题。</p>
+            <div id="chartSandbox" class="chart-container">
+              <svg id="chartSVG" width="100%" height="220" viewBox="0 0 360 220" aria-label="图表预览"></svg>
+              <div id="chartExplain" class="muted small" aria-live="polite">请选择需要修正的问题</div>
+            </div>
+            <div id="q2_material" class="material-display">
+              <h5 id="q2_title" class="q-title">图表分析</h5>
+              <div id="q2_original" class="original-content"></div>
+            </div>
+          </div>
+          <div class="answer-section">
+            <p id="q2_prompt" class="q-prompt">请选择需要修正的图表问题：</p>
+            <div class="checkbox-group">
+              <label class="checkbox-item">
+                <input type="checkbox" id="fix_zero" />
+                <span class="checkmark"></span>
+                <span class="label-text">复位零点 - 确保Y轴从0开始</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="fix_no3d" />
+                <span class="checkmark"></span>
+                <span class="label-text">去除3D效果 - 避免视觉误导</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="fix_single_axis" />
+                <span class="checkmark"></span>
+                <span class="label-text">统一量纲/单轴 - 保持数据一致性</span>
+              </label>
+              <label class="checkbox-item">
+                <input type="checkbox" id="fix_extend" />
+                <span class="checkmark"></span>
+                <span class="label-text">扩展区间 - 显示完整数据范围</span>
+              </label>
+            </div>
+            <div class="question">
+              <label class="input-group">
+                <span class="input-label">预期误差下降(%)：</span>
+                <input type="number" id="errDrop" min="0" max="100" value="0" class="number-input" />
+              </label>
+            </div>
+
+          </div>
+          <div class="feedback-section">
+            <div id="q2_feedback" class="feedback" style="display: none;"></div>
+            <div id="q2_analysis" class="analysis" style="display: none;">
+              <h4>答案解析</h4>
+              <p>这里将显示图表修正的详细解析和最佳实践。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="stage3" class="panel play" tabindex="0" hidden>
+        <div class="play-container">
+          <div class="question-content">
+            <h4>关卡三：事实链与引用</h4>
+            <p class="q-description">为陈述匹配最恰当的引用来源类型。</p>
+          </div>
+          <div class="answer-section">
+            <div class="question">
+              <p class="q">1. “某地新增病例下降”</p>
+              <select id="s1">
+                <option value="">选择来源</option>
+                <option value="0">不明来源的社交帖子</option>
+                <option value="1">官方通报/权威数据</option>
+                <option value="0">网友自述</option>
+              </select>
+            </div>
+            <div class="question">
+              <p class="q">2. “一项研究证明某药有效”</p>
+              <select id="s2">
+                <option value="">选择来源</option>
+                <option value="0">未经同行评议的博客</option>
+                <option value="1">同行评议论文/数据库</option>
+                <option value="0">广告宣传单</option>
+              </select>
+            </div>
+            <div class="question">
+              <p class="q">3. “图像疑似被篡改”</p>
+              <select id="s3">
+                <option value="">选择来源</option>
+                <option value="1">取证工具/原始文件校验</option>
+                <option value="0">转发截图</option>
+                <option value="0">二次传播视频</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section id="stage4" class="panel play" tabindex="0" hidden>
+        <div class="play-container">
+          <div class="question-content">
+            <h4>关卡四：伦理与AI标识</h4>
+            <p class="q-description">计划使用AI生成素材，勾选应执行的规范。</p>
+          </div>
+          <div class="answer-section">
+            <div class="checkboxes">
+              <label><input type="checkbox" class="aiopt" value="1" /> 明确标识“AI生成”，说明用途与范围</label>
+              <label><input type="checkbox" class="aiopt" value="1" /> 对关键事实进行人工核验与更正</label>
+              <label><input type="checkbox" class="aiopt" value="1" /> 避免误导性合成，尊重隐私与版权</label>
+              <label><input type="checkbox" class="aiopt" value="0" /> 不标注，让读者自行判断</label>
+              <label><input type="checkbox" class="aiopt" value="0" /> 用AI生成的人像做真实新闻配图</label>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section id="stage5" class="panel play" tabindex="0" hidden>
+        <div class="play-container">
+          <div class="question-content">
+            <h4>关卡五：谣言识别</h4>
+            <p class="q-description">判断信息真伪，并选择对应理由。</p>
+          </div>
+          <div class="answer-section">
+            <div class="question">
+              <p class="q">1. “专家称饮用盐水可治百病”</p>
+              <label><input type="radio" name="r1" value="1" /> 谣言：无科学证据，缺乏来源</label>
+              <label><input type="radio" name="r1" value="0" /> 可信：专家权威已证实</label>
+            </div>
+            <div class="question">
+              <p class="q">2. “某平台大规模泄露用户数据”</p>
+              <label><input type="radio" name="r2" value="1" /> 谣言：内容为旧闻拼接，无官方确认</label>
+              <label><input type="radio" name="r2" value="1" /> 谣言：来源单一，未多方交叉验证</label>
+              <label><input type="radio" name="r2" value="0" /> 可信：官方与多家媒体同步披露</label>
+            </div>
+            <div class="question">
+              <p class="q">3. “本周某地出现极端天气预警”</p>
+              <label><input type="radio" name="r3" value="0" /> 可信：气象部门发布的实时预警</label>
+              <label><input type="radio" name="r3" value="1" /> 谣言：朋友圈二手转述，无证据</label>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section id="summary" class="panel" tabindex="0" hidden>
+        <h2>回合总结</h2>
+        <div id="summaryContent"></div>
+        <button class="btn" id="backToSelect">返回关卡选择</button>
+      </section>
+
+      <section id="finalReport" class="panel" tabindex="0" hidden>
+        <h2>最终报告</h2>
+        <div class="final-report-container">
+          <div class="report-header">
+            <h3>恭喜您完成了所有题目！</h3>
+            <p class="report-subtitle">以下是您的答题表现分析</p>
+          </div>
+          
+          <div class="report-content">
+            <div class="performance-summary">
+              <h4>总体表现</h4>
+              <div class="overall-score" id="overallScore">
+                <span class="score-value" id="finalScoreValue">0</span>
+                <span class="score-label">总分</span>
+              </div>
+              <div class="performance-level" id="performanceLevel">优秀</div>
+            </div>
+            
+            <div class="detailed-scores">
+              <h4>各项得分详情</h4>
+              <div class="score-breakdown" id="scoreBreakdown">
+                <!-- 动态生成各项得分 -->
+              </div>
+            </div>
+            
+            <div class="recommendations">
+              <h4>改进建议</h4>
+              <div class="recommendation-list" id="recommendationList">
+                <!-- 动态生成建议 -->
+              </div>
+            </div>
+          </div>
+          
+          <div class="report-actions">
+            <button id="viewDetailedResults" class="btn btn-primary">查看详细结果</button>
+            <button id="restartQuiz" class="btn btn-secondary">重新开始</button>
+            <button id="exportFinalReport" class="btn btn-accent">导出报告</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="results" class="panel" tabindex="0">
+        <h2>通关面板</h2>
+        <div class="result-grid">
+          <div>
+            <canvas id="radar" width="320" height="320" aria-label="雷达评分图"></canvas>
+          </div>
+          <div>
+            <div class="score-list" id="scoreList"></div>
+            <label>你的姓名（用于证书）：<input type="text" id="playerName" placeholder="例如：张三" /></label>
+            <div class="export-buttons">
+              <button id="exportSummary" class="btn">导出一页专题PDF</button>
+              <button id="exportCertificate" class="btn">导出证书PDF</button>
+              <button id="exportZip" class="btn">导出ZIP（PDF+JSON+指纹）</button>
+            </div>
+            <p id="hashId" class="hash-id" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+
+
+    <script type="module" src="js/app/main.js"></script>
+    <script type="module" src="js/chart.sandbox.svg.js"></script>
+    
+    <!-- 题库系统模块 -->
+    <script type="module" src="js/question.bank.js"></script>
+    <script type="module" src="js/question.handler.js"></script>
+    
+    <!-- 高级功能模块 -->
+    <script src="js/analytics.dashboard.js"></script>
+    <script src="js/learning.path.js"></script>
+    <script src="js/ai.assistant.js"></script>
+    <script src="js/question.generator.js"></script>
+    <script src="js/collaborative.learning.js"></script>
+    <script src="js/assessment.engine.js"></script>
+    <script src="js/content.recommender.js"></script>
+    <!-- 交互增强与动效 -->
+    <script src="js/enhancements.js"></script>
+    
+    <!-- 布局切换功能 -->
+    <script src="js/layout.toggle.js"></script>
+
+    <!-- 打印模板：一页专题与证书 -->
+    <section id="printTemplates" aria-hidden="true">
+      <div id="printSummary" class="print-sheet">
+        <h1>一页专题</h1>
+        <div id="printSummaryText" class="summary-text"></div>
+        <canvas id="printRadar" width="460" height="460" aria-label="雷达图"></canvas>
+        <div class="summary-meta">
+          <div id="printTimeline">时间轴：自动生成</div>
+          <div id="printEthics">伦理声明：已标识AI生成并核验关键事实</div>
+          <div id="printStamp">生成时间：<span id="printDate"></span></div>
+        </div>
+        <div id="printCitations">引用区：按素材池列出</div>
+      </div>
+
+      <div id="printCert" class="print-sheet">
+        <h1>个人证书</h1>
+        <p id="certName"></p>
+        <p id="certDate"></p>
+        <p id="certHash"></p>
+        <ul id="certBadges" class="badge-list"></ul>
+        <canvas id="certRadar" width="460" height="460" aria-label="证书雷达图"></canvas>
+      </div>
+    </section>
+  </body>
+  </html>

@@ -1,0 +1,213 @@
+{
+  "version": "v2",
+  "lang": ["cn", "en"],
+  "categories": {
+    "title": {
+      "min": 12,
+      "samples": [
+        {
+          "id": "t-001",
+          "type": "title_hygiene",
+          "cn": {
+            "material": "震惊！这家公司一夜暴富！",
+            "prompt": "请用新闻/科普口吻改写标题，补齐主体、动作、时间与量化信息。",
+            "options": [
+              "该公司营收同比增长，利润改善",
+              "公司财报显示收入增长，细分业务拉动",
+              "震惊！这家公司一夜暴富！"
+            ],
+            "good": [0,1],
+            "hint": "避免夸张词，加入时间与量化。"
+          },
+          "en": {
+            "material": "Shocking! This company got rich overnight!",
+            "prompt": "Rewrite in news/science tone. Add subject, action, time, and quantitative info.",
+            "options": [
+              "Revenue up year-on-year; margin improved",
+              "Earnings report shows income growth driven by segments",
+              "Shocking! This company got rich overnight!"
+            ],
+            "good": [0,1],
+            "hint": "Avoid hype; add time and numbers."
+          },
+          "weights": {"replace":0.4, "structure":0.3, "info":0.2, "readability":0.1}
+        },
+        {
+          "id": "t-002",
+          "type": "title_hygiene",
+          "cn": {
+            "material": "全网都在用的神奇方法！",
+            "prompt": "规避绝对化与泛化，限定适用条件。",
+            "options": [
+              "该方法在部分场景有效，需注意适用条件",
+              "调研显示该方法在样本中获得改善",
+              "全网都在用的神奇方法！"
+            ],
+            "good": [0,1],
+            "hint": "给出条件、样本与证据。"
+          },
+          "en": {
+            "material": "Everyone uses this magic method!",
+            "prompt": "Avoid absolutes; constrain applicability.",
+            "options": [
+              "Effective in some scenarios; mind conditions",
+              "Survey shows improvement in sample",
+              "Everyone uses this magic method!"
+            ],
+            "good": [0,1],
+            "hint": "Include constraints, sample and evidence."
+          },
+          "weights": {"replace":0.35, "structure":0.3, "info":0.25, "readability":0.1}
+        },
+        {
+          "id": "t-003",
+          "type": "title_hygiene",
+          "cn": {
+            "material": "用AI一键写论文：太爽了！",
+            "prompt": "标注AI来源与用途，强调事实核验与引用规范。",
+            "options": [
+              "使用AI辅助写作需标识来源并核验事实",
+              "AI生成文本应遵循引用与伦理规范",
+              "用AI一键写论文：太爽了！"
+            ],
+            "good": [0,1],
+            "hint": "给出操作边界与合规动作。"
+          },
+          "en": {
+            "material": "Write thesis in one click with AI: awesome!",
+            "prompt": "Label AI use; stress fact-check and citation.",
+            "options": [
+              "AI-assisted writing requires labeling and fact-checking",
+              "Follow citation and ethics for AI text",
+              "Write thesis in one click with AI: awesome!"
+            ],
+            "good": [0,1],
+            "hint": "Define boundaries and compliance actions."
+          },
+          "weights": {"replace":0.3, "structure":0.3, "info":0.3, "readability":0.1}
+        },
+        {
+          "id": "t-004",
+          "type": "title_hygiene",
+          "cn": {"material":"这一招让学习效率翻倍！","prompt":"补齐对象、时间与测量方式。","options":["某高校样本在期末周效率提升20%","实测显示规划工具在两周内提升专注","这一招让学习效率翻倍！"],"good":[0,1],"hint":"给出样本规模与单位。"},
+          "en": {"material":"This trick doubles study efficiency!","prompt":"Add subject, time and measurement.","options":["University sample shows +20% in finals week","Measured focus up within two weeks via planning tool","This trick doubles study efficiency!"],"good":[0,1],"hint":"Include sample size and unit."},
+          "weights": {"replace":0.35,"structure":0.3,"info":0.25,"readability":0.1}
+        },
+        {
+          "id": "t-005",
+          "type": "title_hygiene",
+          "cn": {"material":"人人都在抢购这款神器！","prompt":"限定人群与区间，避免泛化。","options":["某电商平台在节日期间销量提升","用户在特定场景反馈体验提升","人人都在抢购这款神器！"],"good":[0,1],"hint":"说明时间与来源。"},
+          "en": {"material":"Everyone is buying this gadget!","prompt":"Constrain audience and time window.","options":["Sales up during holiday on specific platform","Users report better experience in certain scenarios","Everyone is buying this gadget!"],"good":[0,1],"hint":"Specify time and source."},
+          "weights": {"replace":0.35,"structure":0.25,"info":0.3,"readability":0.1}
+        },
+        {
+          "id": "t-006",
+          "type": "title_hygiene",
+          "cn": {"material":"写作神器一夜掌握！","prompt":"避免绝对化，说明学习条件。","options":["在导师指导下掌握要点，需练习一周","教程帮助理解关键概念，效果因人而异","写作神器一夜掌握！"],"good":[0,1],"hint":"给出努力与差异。"},
+          "en": {"material":"Master writing tool overnight!","prompt":"Avoid absolutes; state learning conditions.","options":["Key points learned with coaching; practice for a week","Guide clarifies concepts; results vary by user","Master writing tool overnight!"],"good":[0,1],"hint":"Include effort and variance."},
+          "weights": {"replace":0.3,"structure":0.3,"info":0.3,"readability":0.1}
+        }
+      ]
+    },
+    "chart": {
+      "min": 16,
+      "samples": [
+        {"id":"c-001","type":"chart_fix","cn":{"prompt":"修正截断零点","material":"y_min=50, type=bar"},"en":{"prompt":"Fix truncated zero","material":"y_min=50, type=bar"},"params":{"y_min":50,"type":"bar"},"fixes":["zero","label","sort"],"weights":{"zero":0.4,"design":0.4,"readability":0.2}},
+        {"id":"c-002","type":"chart_fix","cn":{"prompt":"移除3D失真","material":"use_3d=true, type=bar"},"en":{"prompt":"Remove 3D distortion","material":"use_3d=true, type=bar"},"params":{"use_3d":true,"type":"bar"},"fixes":["no3d","label"],"weights":{"no3d":0.5,"design":0.3,"readability":0.2}},
+        {"id":"c-003","type":"chart_fix","cn":{"prompt":"纠正双轴误导","material":"dual_axis=true, type=line"},"en":{"prompt":"Correct dual-axis misleading","material":"dual_axis=true, type=line"},"params":{"dual_axis":true,"type":"line"},"fixes":["single_axis","scale"],"weights":{"scale":0.4,"axis":0.4,"legend":0.2}},
+        {"id":"c-004","type":"chart_fix","cn":{"prompt":"修正极端裁窗","material":"window=[2019,2021], type=line"},"en":{"prompt":"Fix extreme windowing","material":"window=[2019,2021], type=line"},"params":{"window":[2019,2021],"type":"line"},"fixes":["full_window","context"],"weights":{"context":0.5,"scale":0.3,"legend":0.2}},
+        {"id":"c-005","type":"chart_fix","cn":{"prompt":"颜色误导→改为顺序色","material":"palette=diverging"},"en":{"prompt":"Fix misleading colors","material":"palette=diverging"},"params":{"palette":"diverging","type":"bar"},"fixes":["palette_seq","legend"],"weights":{"palette":0.5,"legend":0.3,"label":0.2}},
+        {"id":"c-006","type":"chart_fix","cn":{"prompt":"图例错配","material":"legend_mismatch=true"},"en":{"prompt":"Legend mismatch","material":"legend_mismatch=true"},"params":{"legend_mismatch":true,"type":"pie"},"fixes":["legend_fix","label"],"weights":{"legend":0.6,"label":0.2,"palette":0.2}}
+      ]
+    },
+    "source": {
+      "min": 12,
+      "samples": [
+        {"id":"s-001","type":"citation","cn":{"prompt":"学术论文引用占位","material":"作者/标题/期刊/日期/页码"},"en":{"prompt":"Academic citation placeholder","material":"Author/Title/Journal/Date/Page"},"slots":["author","title","source","date","page"],"weights":{"completeness":0.6,"accuracy":0.4}},
+        {"id":"s-002","type":"citation","cn":{"prompt":"政策文件引用占位","material":"机构/标题/文号/发布日期/链接"},"en":{"prompt":"Policy document citation","material":"Agency/Title/Number/Date/URL"},"slots":["agency","title","number","date","url"],"weights":{"completeness":0.6,"accuracy":0.4}},
+        {"id":"s-003","type":"citation","cn":{"prompt":"新闻报道引用占位","material":"媒体/标题/作者/日期/链接"},"en":{"prompt":"News report citation","material":"Outlet/Title/Author/Date/URL"},"slots":["outlet","title","author","date","url"],"weights":{"completeness":0.6,"accuracy":0.4}},
+        {"id":"s-004","type":"citation","cn":{"prompt":"科普文章引用占位","material":"作者/标题/平台/日期/链接"},"en":{"prompt":"Science article citation","material":"Author/Title/Platform/Date/URL"},"slots":["author","title","platform","date","url"],"weights":{"completeness":0.6,"accuracy":0.4}},
+        {"id":"s-005","type":"citation","cn":{"prompt":"数据集引用占位","material":"数据源/主题/版本/发布日期/链接"},"en":{"prompt":"Dataset citation","material":"Source/Topic/Version/Release/URL"},"slots":["source","topic","version","release","url"],"weights":{"completeness":0.6,"accuracy":0.4}},
+        {"id":"s-006","type":"citation","cn":{"prompt":"图片取证引用占位","material":"工具/原始文件指纹/日期/链接"},"en":{"prompt":"Image forensics citation","material":"Tool/Original hash/Date/URL"},"slots":["tool","hash","date","url"],"weights":{"completeness":0.6,"accuracy":0.4}}
+      ]
+    },
+    "ethics": {
+      "min": 12,
+      "samples": [
+        {"id":"e-001","type":"ethics","cn":{"prompt":"未成年人相关报道合规动作","material":"涉及学生与校内拍摄"},"en":{"prompt":"Minor-related reporting compliance","material":"Student and on-campus shooting"},"required":["blur_face","avoid_detail","guardian_consent"],"weights":{"required":0.7,"style":0.3}},
+        {"id":"e-002","type":"ethics","cn":{"prompt":"隐私场景合规","material":"泄露家庭住址"},"en":{"prompt":"Privacy compliance","material":"Home address leaked"},"required":["remove_identifiers","blur_address","context_note"],"weights":{"required":0.7,"style":0.3}},
+        {"id":"e-003","type":"ethics","cn":{"prompt":"事故现场报道合规","material":"车祸现场图像"},"en":{"prompt":"Accident coverage compliance","material":"Car crash imagery"},"required":["avoid_graphic","warn_content","respect_victim"],"weights":{"required":0.7,"style":0.3}},
+        {"id":"e-004","type":"ethics","cn":{"prompt":"AI生成内容标识","material":"AI生成肖像"},"en":{"prompt":"AI-generated content labeling","material":"AI portrait"},"required":["label_ai","avoid_mislead","license_check"],"weights":{"required":0.7,"style":0.3}},
+        {"id":"e-005","type":"ethics","cn":{"prompt":"敏感描述替代表述","material":"犯罪报道中使用偏见词"},"en":{"prompt":"Sensitive wording alternative","material":"Biased terms in crime report"},"required":["neutral_terms","avoid_stereotype","context_balance"],"weights":{"required":0.7,"style":0.3}},
+        {"id":"e-006","type":"ethics","cn":{"prompt":"地理信息模糊","material":"具体门牌号与路线"},"en":{"prompt":"Blur geo identifiers","material":"Exact address and route"},"required":["blur_geo","remove_route","general_area"],"weights":{"required":0.7,"style":0.3}}
+      ]
+    },
+    "rumor": {
+      "min": 10,
+      "samples": [
+        {"id":"r-001","type":"rumor","cn":{"prompt":"真假混排快讯","material":["专家称盐水治百病","官方未证实","旧闻拼接"],"why":["无证据","来源缺失","时间混乱"]},"en":{"prompt":"Mixed true/false bulletin","material":["Expert says salt water cures all","No official confirmation","Old news stitched"],"why":["No evidence","Missing source","Time mismatch"]},"weights":{"identify":0.6,"path":0.4}},
+        {"id":"r-002","type":"rumor","cn":{"prompt":"部分失真","material":["数据看似激增","样本缩小","只取峰值"],"why":["样本选择偏差","窗口裁剪","单位缺失"]},"en":{"prompt":"Partial distortion","material":["Data appears soaring","Sample reduced","Only peaks used"],"why":["Selection bias","Window cropping","Missing units"]},"weights":{"identify":0.6,"path":0.4}},
+        {"id":"r-003","type":"rumor","cn":{"prompt":"拼接伪证","material":["截图叠加","来源不一致","日期不同"],"why":["伪造可能","来源混乱","日期冲突"]},"en":{"prompt":"Spliced fake evidence","material":["Stacked screenshots","Inconsistent sources","Different dates"],"why":["Likely forged","Source chaos","Date conflict"]},"weights":{"identify":0.6,"path":0.4}},
+        {"id":"r-004","type":"rumor","cn":{"prompt":"似真非真","material":["业内人士透露","未给证据","模糊时间"]},"en":{"prompt":"Seems true","material":["Insider says","No evidence provided","Fuzzy time"]},"weights":{"identify":0.6,"path":0.4}},
+        {"id":"r-005","type":"rumor","cn":{"prompt":"旧闻改头换面","material":["旧图新发","年份被改","地点不符"]},"en":{"prompt":"Old news repackaged","material":["Old image reposted","Year altered","Location mismatch"]},"weights":{"identify":0.6,"path":0.4}},
+        {"id":"r-006","type":"rumor","cn":{"prompt":"数据异常","material":["百分比超过100%","样本不明","来源单一"]},"en":{"prompt":"Data anomaly","material":["Percent >100%","Unknown sample","Single source"]},"weights":{"identify":0.6,"path":0.4}}
+      ]
+    },
+    "synthesis": {
+      "min": 12,
+      "samples": [
+        {"id":"y-001","type":"synth","cn":{"prompt":"科技与教育专题","material":"从 articles.seed.json 抽取段落，完成标题整理、图表纠错、引用、伦理标识"},"en":{"prompt":"Tech & Education topic","material":"Draw paragraphs from articles.seed.json; complete title, chart fix, citation, ethics"},"weights":{"title":0.25,"chart":0.25,"source":0.25,"ethics":0.25}},
+        {"id":"y-002","type":"synth","cn":{"prompt":"出版与阅读专题","material":"选择合适素材，输出可信一页专题"},"en":{"prompt":"Publishing & Reading topic","material":"Select appropriate material and produce reliable one-pager"},"weights":{"title":0.25,"chart":0.25,"source":0.25,"ethics":0.25}},
+        {"id":"y-003","type":"synth","cn":{"prompt":"社会与生活专题","material":"整合事实链与伦理标识"},"en":{"prompt":"Society & Life topic","material":"Integrate citation chain and ethics labeling"},"weights":{"title":0.25,"chart":0.25,"source":0.25,"ethics":0.25}},
+        {"id":"y-004","type":"synth","cn":{"prompt":"教育科技政策观察","material":"数据+政策段落组合"},"en":{"prompt":"EdTech policy watch","material":"Combine data + policy paragraphs"},"weights":{"title":0.25,"chart":0.25,"source":0.25,"ethics":0.25}},
+        {"id":"y-005","type":"synth","cn":{"prompt":"阅读行为研究摘要","material":"抽取研究片段与图表"},"en":{"prompt":"Reading behavior summary","material":"Use study fragments and charts"},"weights":{"title":0.25,"chart":0.25,"source":0.25,"ethics":0.25}},
+        {"id":"y-006","type":"synth","cn":{"prompt":"AI与出版实践","material":"强调AI标识与引用"},"en":{"prompt":"AI & publishing practice","material":"Emphasize AI labeling and citation"},"weights":{"title":0.25,"chart":0.25,"source":0.25,"ethics":0.25}}
+      ]
+    },
+    "egg": {
+      "min": 8,
+      "samples": [
+        {"id":"g-001","type":"speedrun","cn":{"prompt":"60秒修正3处图表问题","material":"截断零点+错配图例+误导色"},"en":{"prompt":"Fix 3 chart issues in 60s","material":"Truncated zero + legend mismatch + misleading palette"}},
+        {"id":"g-002","type":"speedrun","cn":{"prompt":"专家问答（语言陷阱）","material":"绝对化/模糊时间/夸张词"},"en":{"prompt":"Expert Q&A (language traps)","material":"Absolutes/Fuzzy time/Hype words"}},
+        {"id":"g-003","type":"speedrun","cn":{"prompt":"快速引用占位","material":"在30秒内补齐四项"},"en":{"prompt":"Quick citation slots","material":"Fill four slots in 30s"}},
+        {"id":"g-004","type":"speedrun","cn":{"prompt":"伦理合规选择","material":"多选必须项"},"en":{"prompt":"Ethics compliance picks","material":"Select required actions"}},
+        {"id":"g-005","type":"speedrun","cn":{"prompt":"谣言高亮","material":"点选可疑句段"},"en":{"prompt":"Rumor highlight","material":"Click suspicious segments"}},
+        {"id":"g-006","type":"speedrun","cn":{"prompt":"综合修正","material":"标题+图表+引用一体化"},"en":{"prompt":"Integrated fix","material":"Title+Chart+Citation in one"}},
+        {"id":"g-007","type":"speedrun","cn":{"prompt":"专家模式：双轴陷阱","material":"双轴比例误导"},"en":{"prompt":"Expert: dual-axis trap","material":"Dual-axis scale misleading"}},
+        {"id":"g-008","type":"speedrun","cn":{"prompt":"专家模式：拼接伪证","material":"不同来源截图叠加"},"en":{"prompt":"Expert: spliced evidence","material":"Stacked screenshots from different sources"}}
+      ]
+    }
+  },
+  "title_norm": [
+    { "original": "震惊！这家公司一夜暴富！", "better": ["该公司营收同比增长，利润改善", "公司财报显示收入增长，细分业务拉动"] },
+    { "original": "全网都在用的神奇方法！", "better": ["该方法在部分场景有效，需注意适用条件", "调研显示该方法在样本中获得改善"] },
+    { "original": "用AI一键写论文：太爽了！", "better": ["使用AI辅助写作需标识来源并核验事实", "AI生成文本应遵循引用与伦理规范"] }
+  ],
+  "chart_fix": {
+    "dataset": [10, 20, 12, 30, 18],
+    "options": ["zero", "label", "sort", "no3d", "single_axis", "extend"],
+    "paramsRanges": {
+      "type": ["bar","line","pie","stacked"],
+      "y_min": [0,80],
+      "use_3d": [false,true],
+      "dual_axis": [false,true],
+      "window_start": [2010,2022],
+      "window_end": [2012,2024],
+      "palette_misleading": [false,true],
+      "legend_mismatch": [false,true]
+    }
+  },
+  "sources": [
+    { "claim": "某地新增病例下降", "best": "官方通报/权威数据" },
+    { "claim": "一项研究证明某药有效", "best": "同行评议论文/数据库" },
+    { "claim": "图像疑似被篡改", "best": "取证工具/原始文件校验" }
+  ],
+  "ethics": [
+    "明确标识AI生成", "人工核验关键事实", "尊重隐私与版权", "避免误导性合成"
+  ],
+  "rumor": [
+    { "text": "专家称饮用盐水可治百病", "truth": false },
+    { "text": "某平台大规模泄露用户数据", "truth": "depends" },
+    { "text": "本周某地出现极端天气预警", "truth": true }
+  ]
+}
