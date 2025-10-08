@@ -6,6 +6,9 @@ permissions:
   contents: read
   pages: write
   id-token: write
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 jobs:
   deploy:
     environment:
@@ -14,10 +17,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # 关键一步：配置 Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # 上传 dist 作为要发布的站点
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
+
+      # 正式发布
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
