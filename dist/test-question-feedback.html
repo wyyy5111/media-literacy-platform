@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>答题反馈测试</title>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-button {
+            margin: 10px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>答题反馈功能测试</h1>
+        
+        <div class="test-section">
+            <h2>测试问题</h2>
+            <div id="questionContainer"></div>
+        </div>
+        
+        <div class="test-section">
+            <h2>测试控制</h2>
+            <button class="test-button" onclick="testCorrectAnswer()">测试正确答案</button>
+            <button class="test-button" onclick="testIncorrectAnswer()">测试错误答案</button>
+            <button class="test-button" onclick="testSkipQuestion()">测试跳过问题</button>
+            <button class="test-button" onclick="resetTest()">重置测试</button>
+        </div>
+        
+        <div class="test-section">
+            <h2>状态信息</h2>
+            <div id="statusInfo"></div>
+        </div>
+    </div>
+
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/question.handler.js"></script>
+    <script type="module">
+        // 模拟全局状态
+        window.state = {
+            scores: {
+                title: 0,
+                chart: 0,
+                source: 0,
+                ethics: 0,
+                rumor: 0
+            },
+            lang: 'cn'
+        };
+        
+        window.saveState = function() {
+            console.log('保存状态:', window.state);
+        };
+        
+        window.showFeedback = function(ok, msgCN, msgEN, lang) {
+            console.log('显示反馈:', { ok, msgCN, msgEN, lang });
+        };
+        
+        // 测试问题数据
+        const testQuestion = {
+            id: 'test-1',
+            category: 'title',
+            title: '测试问题',
+            prompt: '请选择正确答案',
+            options: ['选项A', '选项B', '选项C', '选项D'],
+            correct: 1,
+            score: 10,
+            explanation: '这是正确答案的解释。'
+        };
+        
+        let questionHandler;
+        
+        function initTest() {
+            questionHandler = window.questionHandler || new window.QuestionHandler();
+            updateStatus('测试初始化完成');
+        }
+        
+        function updateStatus(message) {
+            const statusDiv = document.getElementById('statusInfo');
+            const timestamp = new Date().toLocaleTimeString();
+            statusDiv.innerHTML += `<p>[${timestamp}] ${message}</p>`;
+        }
+        
+        window.testCorrectAnswer = function() {
+            updateStatus('开始测试正确答案');
+            questionHandler.renderRealQuestion(testQuestion, document.getElementById('questionContainer'));
+            
+            // 模拟选择正确答案
+            setTimeout(() => {
+                const correctOption = document.querySelector(`input[value="1"]`);
+                if (correctOption) {
+                    correctOption.checked = true;
+                    updateStatus('已选择正确答案');
+                    
+                    // 模拟提交
+                    setTimeout(() => {
+                        const submitBtn = document.querySelector('#submitAnswer');
+                        if (submitBtn) {
+                            submitBtn.click();
+                            updateStatus('已提交正确答案');
+                        }
+                    }, 500);
+                }
+            }, 500);
+        };
+        
+        window.testIncorrectAnswer = function() {
+            updateStatus('开始测试错误答案');
+            questionHandler.renderRealQuestion(testQuestion, document.getElementById('questionContainer'));
+            
+            // 模拟选择错误答案
+            setTimeout(() => {
+                const incorrectOption = document.querySelector(`input[value="0"]`);
+                if (incorrectOption) {
+                    incorrectOption.checked = true;
+                    updateStatus('已选择错误答案');
+                    
+                    // 模拟提交
+                    setTimeout(() => {
+                        const submitBtn = document.querySelector('#submitAnswer');
+                        if (submitBtn) {
+                            submitBtn.click();
+                            updateStatus('已提交错误答案');
+                        }
+                    }, 500);
+                }
+            }, 500);
+        };
+        
+        window.testSkipQuestion = function() {
+            updateStatus('开始测试跳过问题');
+            questionHandler.renderRealQuestion(testQuestion, document.getElementById('questionContainer'));
+            
+            // 模拟跳过
+            setTimeout(() => {
+                const skipBtn = document.querySelector('#skipQuestion');
+                if (skipBtn) {
+                    skipBtn.click();
+                    updateStatus('已跳过问题');
+                }
+            }, 500);
+        };
+        
+        window.resetTest = function() {
+            document.getElementById('questionContainer').innerHTML = '';
+            document.getElementById('statusInfo').innerHTML = '';
+            updateStatus('测试已重置');
+        };
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', initTest);
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "一眼真相：编辑闯关",
+  "short_name": "编辑闯关",
+  "start_url": "./dist/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff91af",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+[
+  {
+    "title": "事实核验的五步法",
+    "bullets": [
+      "明确问题与陈述边界",
+      "查找可靠来源并交叉验证",
+      "识别夸张词与模糊时点",
+      "对图表进行零轴/单位/排序校验",
+      "标注AI生成内容并尊重伦理"
+    ]
+  },
+  {
+    "title": "图表纠错案例",
+    "bullets": [
+      "不从零轴导致差异被夸大",
+      "缺少单位造成误读",
+      "排序不一致影响比较",
+      "截断与裁窗隐藏信息"
+    ]
+  },
+  {
+    "title": "综合专题素材片段 A",
+    "bullets": [
+      "阅读量在节日期间上升，非全年趋势",
+      "样本规模与来源需明确，避免泛化",
+      "政策文本与数据图一致呈现"
+    ],
+    "numbers": ["同比+20%", "样本N=120", "误差范围±3%"],
+    "times": ["2023 Q3", "上月", "近日"],
+    "quotes": [
+      "某机构报告称：在控制变量后，提升有限",
+      "研究者指出：不同平台之间存在口径差异"
+    ],
+    "ethics_flags": ["AI生成图", "个人隐私"],
+    "citations": [
+      {"type":"paper","author":"Zhang et al.","title":"Reading Trends","journal":"Journal of Media","date":"2023-07","page":"12-19"},
+      {"type":"policy","agency":"某部委","title":"阅读促进政策","number":"(2023)42号","date":"2023-08","url":"https://example.org/policy"}
+    ]
+  },
+  {
+    "title": "综合专题素材片段 B",
+    "bullets": [
+      "强调AI标识与事实核验",
+      "用顺序色避免颜色误导",
+      "统一量纲避免双轴陷阱"
+    ],
+    "numbers": ["转化率+5%", "样本N=600", "峰值出现在周末"],
+    "times": ["去年", "不久前", "上月"],
+    "quotes": [
+      "平台披露：数据按周统计，口径已统一",
+      "编辑部：所有AI生成段落已标注并核验"
+    ],
+    "ethics_flags": ["事故现场", "具体住址"],
+    "citations": [
+      {"type":"dataset","source":"Gov Open Data","topic":"Reading Index","version":"v1.2","release":"2023-06","url":"https://data.example.gov"},
+      {"type":"article","author":"Li","title":"图表设计原则","platform":"DataViz Weekly","date":"2022-12","url":"https://example.com/article"}
+    ]
+  }
+]

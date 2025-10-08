@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>一眼真相：编辑闯关 — 作品说明书（初稿）</title>
+    <style>
+      :root { --fg:#223; --muted:#667; --primary:#2c7be5; }
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Noto Sans SC, Arial, sans-serif; color: var(--fg); }
+      .page { max-width: 860px; margin: 24px auto; padding: 24px; line-height: 1.7; }
+      h1 { font-size: 28px; margin: 0 0 8px; }
+      h2 { font-size: 22px; margin: 24px 0 12px; color: var(--primary); }
+      h3 { font-size: 18px; margin: 18px 0 8px; }
+      p, li { font-size: 16px; }
+      .muted { color: var(--muted); }
+      .kv { display: grid; grid-template-columns: 180px 1fr; gap: 8px 16px; }
+      .toc li { margin: 6px 0; }
+      .foot { margin-top: 24px; font-size: 14px; color: var(--muted); }
+      @media print {
+        .page { page-break-after: always; }
+        a { color: inherit; text-decoration: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 1. 摘要 -->
+    <section class="page">
+      <h1>作品说明书（初稿）</h1>
+      <h2>摘要</h2>
+      <p>《一眼真相：编辑闯关》是一款面向新闻与内容编辑训练的轻量交互作品，围绕“标题规范、图表纠错、事实链与引用、伦理与AI标识、谣言识别”五大能力建立关卡与评分体系，支持离线运行（PWA）、一页专题与个人证书导出，并提供性能与可访问性保障。</p>
+      <div class="kv">
+        <div>核心价值</div><div>以互动关卡驱动编辑素养提升与可量化评估，可导出证明与留存索引。</div>
+        <div>运行环境</div><div>浏览器本地，无需后端；支持安装到桌面与断网使用。</div>
+        <div>目标时长</div><div>单轮训练 6–12 分钟；演示视频 2–4 分钟。</div>
+        <div>产出物</div><div>一页专题PDF、个人证书PDF、ZIP（JSON+指纹），演示脚本。</div>
+      </div>
+      <p class="foot">版本：v1 初稿（自动生成） · 打印建议：A4 纵向，启用背景图形</p>
+    </section>
+
+    <!-- 2. 背景 -->
+    <section class="page">
+      <h2>背景</h2>
+      <p>在信息过载与生成式内容迅速普及的背景下，编辑岗位面临标题规范化、数据可视化可信性、事实链完整性与伦理合规的新挑战。传统教学多停留在静态案例与口头讲解，难以形成可量化、可验证、可复盘的训练闭环。本作品以交互式闯关与即时评分、导出可视化成果的方式，构建面向课堂与实战的轻量训练工具。</p>
+    </section>
+
+    <!-- 3. 赛道匹配 -->
+    <section class="page">
+      <h2>赛道匹配</h2>
+      <ul class="toc">
+        <li>教育与培训：课堂实操、作业评估与复盘；可随堂安装离线运行。</li>
+        <li>新闻与内容创作：内训/试岗评估，输出个人证书与专题页留痕。</li>
+        <li>科普与数据新闻：面向大众的认知提升与互动体验。</li>
+      </ul>
+    </section>
+
+    <!-- 4. 系统功能 -->
+    <section class="page">
+      <h2>系统功能</h2>
+      <ul>
+        <li>五关训练：标题规范、图表纠错、事实链与引用、伦理与AI标识、谣言识别。</li>
+        <li>综合关与彩蛋：一页专题整合演练；限时修正挑战。</li>
+        <li>评分与雷达图：四维雷达与综合分；通关面板列表与进度条。</li>
+        <li>导出与溯源：专题PDF、证书PDF、ZIP（包含 JSON 与指纹）；本地索引。</li>
+        <li>成就与激励：零噱头记者、3D终结者、引用达人、伦理守门员、极速修正。</li>
+        <li>PWA 与离线：首次打开后缓存核心资源；安装到桌面；断网依旧可用。</li>
+        <li>可访问性与国际化：键盘可达、高对比、字体缩放；中英切换。</li>
+      </ul>
+    </section>
+
+    <!-- 5. 技术路线 -->
+    <section class="page">
+      <h2>技术路线</h2>
+      <ul>
+        <li>前端纯 JS 模块化：`dist/js/*.js` 组织；SVG/Canvas 绘图；Print CSS 导出。</li>
+        <li>PWA：`sw.js` 预缓存 `/assets/**`、`/css/**`、`/js/**`、`/data/**` 与 `index.html`。</li>
+        <li>数据与存储：`data/*.json` 作为题库；IndexedDB 写入导出记录与索引。</li>
+        <li>性能监控：`perf.monitor.js` 埋点（TTI ≤ 1500ms，交互 ≤ 50ms），日志于 `localStorage`。</li>
+        <li>安装提示：`beforeinstallprompt` 捕获并显示“安装到桌面”按钮。</li>
+      </ul>
+    </section>
+
+    <!-- 6. 算法细节 -->
+    <section class="page">
+      <h2>算法细节</h2>
+      <h3>评分模型（`scoring.js`）</h3>
+      <ul>
+        <li>标题规范：替换夸张词、主体命中、定量与时间命中、残留夸张词惩罚，封顶 100。</li>
+        <li>图表纠错：复位零点、去3D、统一量纲/单轴、扩展区间，各 +10；误差下降 加分上限 60。</li>
+        <li>事实链：作者/机构、标题、日期、链接/页码等槽位；正确 +5，缺失或格式错 -5。</li>
+        <li>伦理：必选项每项 +10；禁用项每项 -10；封顶 100。</li>
+        <li>综合分：四维权重 25%/35%/20%/20%，计算 Overall 得分。</li>
+      </ul>
+      <h3>指纹与证书（`ledger.hash.js`）</h3>
+      <ul>
+        <li>`hash`：基于姓名、时间戳与总分生成哈希；`hex8` 取前 8 位作为证书编号。</li>
+      </ul>
+      <h3>导出打包（`report.maker.js`）</h3>
+      <ul>
+        <li>专题/证书：走 Print CSS 渲染版式，调用浏览器打印为 PDF。</li>
+        <li>ZIP：包含 `report.json`（分数、总体、徽章、指纹）与 `fingerprint.txt`；支持 JSZip。</li>
+      </ul>
+    </section>
+
+    <!-- 7. 可访问性 -->
+    <section class="page">
+      <h2>可访问性</h2>
+      <ul>
+        <li>键盘操作：Tab/Shift+Tab、方向键切页签、Enter/Space 激活；ARIA 标签自动补齐。</li>
+        <li>视觉辅助：高对比度模式、字体缩放、简洁配色；中文与英文文案切换。</li>
+        <li>打印辅助：单页版式、避免溢出与跳版；建议启用“打印背景图形”。</li>
+      </ul>
+    </section>
+
+    <!-- 8. 测试与性能 -->
+    <section class="page">
+      <h2>测试与性能</h2>
+      <ul>
+        <li>跨浏览器：Chrome/Edge 桌面与安卓；验证 PWA 安装与离线使用。</li>
+        <li>极端输入：夸张标题、单点图表、来源缺失；分数与雷达图同步变化。</li>
+        <li>打印一致性：专题与证书各为单页，不跳版；中文字体渲染稳定。</li>
+        <li>性能阈值：TTI ≤ 1500ms；交互回执 ≤ 50ms；包体 ≤ 20MB；Lighthouse 可访问性 ≥ 90、性能 ≥ 85。</li>
+      </ul>
+    </section>
+
+    <!-- 9. 安全与伦理 -->
+    <section class="page">
+      <h2>安全与伦理</h2>
+      <ul>
+        <li>AI标识：对生成内容进行显著标注；避免误导性合成。</li>
+        <li>事实核验：关键事实需人工核验与更正；来源多方交叉验证。</li>
+        <li>隐私与版权：不使用合成真人像作真实新闻配图；遵守版权与引用规范。</li>
+      </ul>
+    </section>
+
+    <!-- 10. 成果展示 -->
+    <section class="page">
+      <h2>成果展示</h2>
+      <ul>
+        <li>通关面板：雷达评分、分数列表、进度条与成就徽章。</li>
+        <li>导出成果：一页专题 PDF、个人证书 PDF；ZIP 包含 JSON 与指纹。</li>
+        <li>证书信息：姓名、日期、证书编号（hex8），雷达图与徽章一并展示。</li>
+      </ul>
+    </section>
+
+    <!-- 11. 局限与改进 -->
+    <section class="page">
+      <h2>局限与改进</h2>
+      <ul>
+        <li>PDF 合成：当前走浏览器打印；后续可集成 `pdf-lib` 实现无头生成。</li>
+        <li>题库规模：`data/*.json` 为示例；可扩展更多素材与自定义关卡。</li>
+        <li>算法精细化：评分公式可根据真实数据与评审反馈进一步校准。</li>
+        <li>可访问性细节：增加语义结构导航、焦点可见性与更丰富的提示文本。</li>
+      </ul>
+    </section>
+
+    <!-- 12. 落地与推广 -->
+    <section class="page">
+      <h2>落地与推广</h2>
+      <ul>
+        <li>教学场景：作为课堂练习、考试辅助与课后作业；支持离线部署。</li>
+        <li>行业场景：新闻编辑内训、内容平台审核培训；输出证书与专题样例。</li>
+        <li>推广路径：开源静态站点、一键部署；PWA 安装降低进入门槛。</li>
+      </ul>
+      <p class="foot">以上为 12 页左右初稿内容，支持直接打印为 PDF。</p>
+    </section>
+
+    <!-- 18. 安全与伦理底线 -->
+    <section class="page">
+      <h2>安全与伦理底线</h2>
+      <ul>
+        <li>不采集个人信息；</li>
+        <li>不上传数据；</li>
+        <li>仅使用开源可用素材；若不确定，使用自制占位图；</li>
+        <li>对“AI生成”内容显著标注。</li>
+      </ul>
+    </section>
+  </body>
+</html>

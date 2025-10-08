@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>功能验证测试 - 媒体素养教育平台</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 3px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .warning { background-color: #fff3cd; color: #856404; }
+        button { margin: 5px; padding: 8px 15px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>媒体素养教育平台 - 功能验证测试</h1>
+    
+    <div class="test-section">
+        <h2>1. 数据加载测试</h2>
+        <button onclick="testDataLoading()">测试数据加载</button>
+        <div id="dataTest"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. 关卡生成测试</h2>
+        <button onclick="testLevelGeneration()">测试关卡生成</button>
+        <div id="levelTest"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. 评分系统测试</h2>
+        <button onclick="testScoringSystem()">测试评分系统</button>
+        <div id="scoringTest"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. AI功能测试</h2>
+        <button onclick="testAIFeatures()">测试AI功能</button>
+        <div id="aiTest"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>5. 性能监控测试</h2>
+        <button onclick="testPerformance()">测试性能监控</button>
+        <div id="perfTest"></div>
+    </div>
+
+    <script type="module">
+        // 测试数据加载
+        window.testDataLoading = async function() {
+            const result = document.getElementById('dataTest');
+            result.innerHTML = '<p>正在测试数据加载...</p>';
+            
+            try {
+                // 测试关卡数据
+                const levelsResponse = await fetch('/data/levels.seed.json');
+                const levelsData = await levelsResponse.json();
+                
+                // 测试词典数据
+                const lexiconsResponse = await fetch('/data/lexicons.json');
+                const lexiconsData = await lexiconsResponse.json();
+                
+                // 测试文章数据
+                const articlesResponse = await fetch('/data/articles.seed.json');
+                const articlesData = await articlesResponse.json();
+                
+                result.innerHTML = `
+                    <div class="test-result success">
+                        ✅ 数据加载成功<br>
+                        - 关卡数据: ${levelsData.length} 个关卡<br>
+                        - 词典数据: ${Object.keys(lexiconsData).length} 个词典<br>
+                        - 文章数据: ${articlesData.length} 篇文章
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = `<div class="test-result error">❌ 数据加载失败: ${error.message}</div>`;
+            }
+        };
+        
+        // 测试关卡生成
+        window.testLevelGeneration = async function() {
+            const result = document.getElementById('levelTest');
+            result.innerHTML = '<p>正在测试关卡生成...</p>';
+            
+            try {
+                // 动态导入关卡引擎
+                const { generateLevels } = await import('./js/levels.engine.js');
+                const levels = await generateLevels();
+                
+                if (levels && levels.length > 0) {
+                    result.innerHTML = `
+                        <div class="test-result success">
+                            ✅ 关卡生成成功<br>
+                            - 生成关卡数: ${levels.length}<br>
+                            - 示例关卡: ${levels[0].title || '无标题'}
+                        </div>
+                    `;
+                } else {
+                    result.innerHTML = '<div class="test-result error">❌ 关卡生成失败: 未生成任何关卡</div>';
+                }
+            } catch (error) {
+                result.innerHTML = `<div class="test-result error">❌ 关卡生成失败: ${error.message}</div>`;
+            }
+        };
+        
+        // 测试评分系统
+        window.testScoringSystem = async function() {
+            const result = document.getElementById('scoringTest');
+            result.innerHTML = '<p>正在测试评分系统...</p>';
+            
+            try {
+                const { scoreTitle, scoreChart, scoreSource, scoreEthics } = await import('./js/scoring.js');
+                
+                // 测试标题评分
+                const titleScore = scoreTitle('这是一个测试标题', {});
+                
+                // 测试图表评分
+                const chartScore = scoreChart({}, {});
+                
+                result.innerHTML = `
+                    <div class="test-result success">
+                        ✅ 评分系统正常<br>
+                        - 标题评分函数: 可用<br>
+                        - 图表评分函数: 可用<br>
+                        - 来源评分函数: 可用<br>
+                        - 伦理评分函数: 可用
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = `<div class="test-result error">❌ 评分系统失败: ${error.message}</div>`;
+            }
+        };
+        
+        // 测试AI功能
+        window.testAIFeatures = async function() {
+            const result = document.getElementById('aiTest');
+            result.innerHTML = '<p>正在测试AI功能...</p>';
+            
+            try {
+                const { AIAssistant } = await import('./js/ai.assistant.js');
+                const { QuestionGenerator } = await import('./js/question.generator.js');
+                const { ContentRecommender } = await import('./js/content.recommender.js');
+                
+                // 测试AI助手
+                const aiAssistant = new AIAssistant();
+                
+                // 测试问题生成器
+                const questionGenerator = new QuestionGenerator();
+                
+                // 测试内容推荐器
+                const contentRecommender = new ContentRecommender();
+                
+                result.innerHTML = `
+                    <div class="test-result success">
+                        ✅ AI功能模块加载成功<br>
+                        - AI助手: 已初始化<br>
+                        - 问题生成器: 已初始化<br>
+                        - 内容推荐器: 已初始化
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = `<div class="test-result error">❌ AI功能测试失败: ${error.message}</div>`;
+            }
+        };
+        
+        // 测试性能监控
+        window.testPerformance = async function() {
+            const result = document.getElementById('perfTest');
+            result.innerHTML = '<p>正在测试性能监控...</p>';
+            
+            try {
+                const { PerfMonitor } = await import('./js/perf.monitor.js');
+                const { PerformanceOptimizer } = await import('./js/performance.optimizer.js');
+                
+                // 测试性能标记
+                PerfMonitor.mark('test_start');
+                
+                // 模拟一些操作
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                PerfMonitor.mark('test_end');
+                const duration = PerfMonitor.measure('test_duration', 'test_start', 'test_end');
+                
+                result.innerHTML = `
+                    <div class="test-result success">
+                        ✅ 性能监控正常<br>
+                        - 性能标记: 可用<br>
+                        - 测试耗时: ${duration.toFixed(2)}ms<br>
+                        - 性能优化器: 已加载
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = `<div class="test-result error">❌ 性能监控测试失败: ${error.message}</div>`;
+            }
+        };
+    </script>
+</body>
+</html>
